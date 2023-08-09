@@ -8,7 +8,7 @@ COPY . .
 
 COPY configs/config_${envType}.toml ./configs/config.toml
 
-RUN go env && go build -o ./bin/main && chomd +x ./bin/main
+RUN go env && go build -o ./bin/main && chmod +x ./bin/main
 
 CMD ["./bin/main", "-c", "./configs/config.toml"]
 
