@@ -9,3 +9,9 @@ Docker使用Demo
 ```shell
 docker build --build-arg envType=dev -t docker_demo:v0.0.1 .
 ```
+
+运行容器
+
+```shell
+docker run docker_demo:v0.0.1
+```
