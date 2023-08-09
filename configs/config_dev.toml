@@ -1,0 +1,3 @@
+# 服务名字配置
+server.name = "docker_demo"
+server.port = "8080"
