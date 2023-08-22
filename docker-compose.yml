@@ -1,0 +1,11 @@
+version: '3'
+services:
+  docker-demo:
+    container_name: docker-demo
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - envType=prod
+    ports:
+      - "8080:8080"
