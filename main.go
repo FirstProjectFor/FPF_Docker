@@ -44,7 +44,7 @@ func main() {
 		fmt.Println(string(requestData))
 
 		//write data to response
-		_, innerErr = res.Write([]byte("pong " + *configFile))
+		_, innerErr = res.Write([]byte("pong"))
 		if innerErr != nil {
 			fmt.Printf("write data failed, err:%s. \n", err)
 			return
