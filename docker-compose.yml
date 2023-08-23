@@ -9,3 +9,5 @@ services:
         - envType=prod
     ports:
       - "8080:8080"
+    volumes:
+      - /Users/feilong/logs:/usr/src/app/logs/

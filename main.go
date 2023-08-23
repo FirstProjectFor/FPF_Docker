@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"github.com/FirstProjectFor/FPF_Docker/logger"
 	"github.com/spf13/viper"
 	"io"
 	"net/http"
@@ -11,6 +11,7 @@ import (
 
 type Config struct {
 	Server server
+	Log    log
 }
 
 type server struct {
@@ -18,14 +19,16 @@ type server struct {
 	Port int
 }
 
+type log struct {
+	File string
+}
+
 func main() {
+
 	configFile := flag.String("c", "./configs/config_dev.toml", "-c configFile file")
 	flag.Parse()
 
-	fmt.Println(*configFile)
-
 	config := &Config{}
-
 	viper.SetConfigFile(*configFile)
 	err := viper.ReadInConfig()
 	panicIfNoNil(err)
@@ -33,20 +36,22 @@ func main() {
 	err = viper.Unmarshal(config)
 	panicIfNoNil(err)
 
-	fmt.Printf("config: %#v \n", config)
+	logger.InitLogger(config.Log.File)
 
 	http.HandleFunc("/ping", func(res http.ResponseWriter, req *http.Request) {
+		sugarLog := logger.GetLogger().Sugar()
+		defer sugarLog.Sync()
 		requestData, innerErr := io.ReadAll(req.Body)
 		if innerErr != nil {
-			fmt.Printf("read data failed, err:%s. \n", err)
+			sugarLog.Infof("read data failed, err:%v", err)
 			return
 		}
-		fmt.Println(string(requestData))
+		sugarLog.Infof("accept reauest, request data:%s", string(requestData))
 
 		//write data to response
 		_, innerErr = res.Write([]byte("pong"))
 		if innerErr != nil {
-			fmt.Printf("write data failed, err:%s. \n", err)
+			sugarLog.Infof("write data failed, err:%v", err)
 			return
 		}
 	})

@@ -1,3 +1,6 @@
 # 服务名字配置
 server.name = "docker-demo"
 server.port = "8080"
+
+# log
+log.file = "./logs/docker-demo.log"
